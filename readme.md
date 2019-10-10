@@ -1,6 +1,6 @@
 # sign
 
-A universal javascript library for signing strings and avoid tampering:
+A universal javascript library for signing strings to avoid tampering:
 
 ```js
 import { sign, check } from 'sign';
@@ -34,8 +34,10 @@ Note that this does *no* encrypt the messages, just checks whether the message h
 Both the message and secret must be plain strings. Make sure that the secret has high entropy and remains in a safe location, e.g.:
 
 ```js
-sign('Francisco', process.env.SECRET);
+const signed = sign('Francisco', process.env.SECRET);
 ```
+
+The result looks like `{MESSAGE}#{SIGNATURE}`.
 
 
 ### check(signed, secret)

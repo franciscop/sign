@@ -1,7 +1,7 @@
 {
   "name": "sign",
-  "version": "1.0.0-alpha.2",
-  "description": "A library for signing strings and validating signatures",
+  "version": "1.0.0-alpha.3",
+  "description": "A universal javascript library for signing strings to avoid tampering",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -19,6 +19,10 @@
   ],
   "author": "Francisco Presencia <public@francisco.io> (https://francisco.io/)",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/franciscop/sign"
+  },
   "engines": {
     "node": ">=12.0.0"
   },
