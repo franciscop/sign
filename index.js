@@ -11,18 +11,15 @@ const browserHash = async (message, secret) => {
   // Encoder to convert string to Uint8Array
   const enc = new TextEncoder("utf-8");
 
-  const key = await window.crypto.subtle.importKey(
+  // Note: window is not defined in Cloudflare's Workers
+  const key = await crypto.subtle.importKey(
     "raw", // raw format of the key - should be Uint8Array
     enc.encode(secret),
     { name: "HMAC", hash: { name: "SHA-256" } },
     false, // export = false
     ["sign", "verify"] // what this key can do
   );
-  const signature = await window.crypto.subtle.sign(
-    "HMAC",
-    key,
-    enc.encode(message)
-  );
+  const signature = await crypto.subtle.sign("HMAC", key, enc.encode(message));
   var b = new Uint8Array(signature);
   return Array.prototype.map
     .call(b, x => ("00" + x.toString(16)).slice(-2))

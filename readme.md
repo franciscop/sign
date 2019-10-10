@@ -1,22 +1,31 @@
 # sign
 
-A universal javascript library for signing strings and validating those signatures:
+A universal javascript library for signing strings and avoid tampering:
 
 ```js
 import { sign, check } from 'sign';
 
 // Keep the secret long and safe! e.g., use `process.env.SECRET` or similar
-const secret = '123456';
-const signed = await sign('Francisco', secret);
-expect(signed).toBe('Francisco#b4c4c3d6e52559c7b13421ae0ef6d9c0f1c774b98c931f5f080a2a578cba5c69');
-expect(await check(signed, secret)).toBe(true);
+const signed = await sign('Francisco', '123456');
+
+console.log(signed);
+// Francisco#b4c4c3d6e52559c7b13421ae0ef6d9c0f1c774b98c931f5f080a2a578cba5c69
+
+// Only matches if the secret is the same used to sign
+console.log(await check(signed, '123456'));    // true
+console.log(await check(signed, 'badsecret')); // false
+
+// Prevent tampering on the client side since they don't know the secret
+const fakeCookie = await sign('Francisco', 'badsecret');
+console.log(await check(fakeCookie, '123456')); // false
+
 ```
 
-It works on Node.js, the browser (through the Web Crypto API) and serverless environments like Cloudflare Workers.
+It works on Node.js, the browser and Cloudflare Workers.
 
-It is useful to make sure that only those who know the `secret` have modified the message. This is ideal to sign session cookies, since those are created and modified only by the server, but can be used for many more things.
+It is used to make sure that only those with the `secret` have modified the message. This is ideal to sign session cookies, since those are created and modified only by the server, but can be used for many more things.
 
-Note that this does *no* encrypt the messages, just checks whether the message has been modified by someone who knows the secret. The message remains plain text.
+Note that this does *no* encrypt the messages, just checks whether the message has been modified by someone who knows the secret. The message remains in plain text.
 
 ## API
 
