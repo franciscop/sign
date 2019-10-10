@@ -1,6 +1,6 @@
 {
   "name": "sign",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "description": "A library for signing strings and validating signatures",
   "main": "index.js",
   "type": "module",
