@@ -1,11 +1,11 @@
 {
   "name": "sign",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0",
   "description": "A universal javascript library for signing strings to avoid tampering",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "bundle": "rollup test.js --o test.browser.js --f cjs",
+    "build": "rollup test.js --o test.browser.js --f cjs",
     "test": "node --experimental-modules test.js"
   },
   "keywords": [

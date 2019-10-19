@@ -24,7 +24,8 @@ const nodeHash = async (message, secret = "") => {
   return crypto
     .createHmac("sha256", secret)
     .update(message)
-    .digest("hex");
+    .digest("base64")
+    .replace(/\=+$/, "");
 };
 
 // From here: https://stackoverflow.com/a/47332317/938236
@@ -41,10 +42,8 @@ const browserHash = async (message, secret) => {
     ["sign", "verify"] // what this key can do
   );
   const signature = await crypto.subtle.sign("HMAC", key, enc.encode(message));
-  var b = new Uint8Array(signature);
-  return Array.prototype.map
-    .call(b, x => ("00" + x.toString(16)).slice(-2))
-    .join("");
+  const bytes = new Uint8Array(signature);
+  return btoa(String.fromCharCode.apply(null, bytes)).replace(/\=+$/, "");
 };
 
 // Compare two hashes in constant time
@@ -63,23 +62,23 @@ const sign = async (message, secret) => {
   if (!message) throw new TypeError("Provide a message to sign(message)");
   if (!secret) throw new TypeError("Provide a secret to sign(message, secret)");
 
-  const signature = await hash(`${message}${secret}`, secret);
-  return `${message}#${signature}`;
+  const signature = await hash(message, secret);
+  return `${message}.${signature}`;
 };
 
 const check = async (signed, secret) => {
   // Requires two strings for the check
   if (!signed || typeof signed !== "string") return false;
   if (!secret || typeof secret !== "string") return false;
-  if (!signed.includes("#")) return false;
+  if (!signed.includes(".")) return false;
 
   // Break it into two parts
-  const parts = signed.split("#");
+  const parts = signed.split(".");
   const signature = parts.pop();
-  const value = parts.join("#");
+  const value = parts.join(".");
 
   // Get the signature again
-  const hashed = await hash(`${value}${secret}`, secret);
+  const hashed = await hash(value, secret);
 
   // Compare them in constant time
   return safeEqual(hashed, signature);
@@ -115,15 +114,26 @@ const throws = async (err, b = Error, reason = "did not throw") => {
   try {
     equal(
       await sign("francisco", "123456"),
-      "francisco#cc72290e44931616537934388d5c749b1bf9e63f9ff8701992534f8b0ded7923",
+      "francisco.SDucxDGCVvBwEq5/CMoConqdZvA4Td8mai5yWa5Vyjs",
       "can sign strings"
     );
 
     equal(
-      await sign("francisco#io", "123456"),
-      "francisco#io#c8377bfa77a734e7b23097d397b6b36d8f593f9c2b8593fa73b9883a03f71559",
+      await sign("francisco.io", "123456"),
+      "francisco.io.xFF4o51hmFPUJfxqy/9RharxvzqH+aLeZ0a6AM0wxLY",
       "can sign strings with pound symbols"
     );
+
+    const tobi = await sign("hello", "tobiiscool");
+    equal(
+      tobi,
+      "hello.DGDUkGlIkCzPz+C0B064FNgHdEjox7ch8tOBGslZ5QI",
+      "signs the same as cookie-signature"
+    );
+
+    equal(await check(tobi, "tobiiscool"), true, "tobi is cool");
+
+    equal(await check(tobi, "luna"), false, "luna is not cool");
 
     equal(
       await check(await sign("francisco", "123456"), "123456"),

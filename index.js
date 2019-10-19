@@ -21,10 +21,8 @@ const browserHash = async (message, secret) => {
     ["sign", "verify"] // what this key can do
   );
   const signature = await crypto.subtle.sign("HMAC", key, enc.encode(message));
-  var b = new Uint8Array(signature);
-  return Array.prototype.map
-    .call(b, x => ("00" + x.toString(64)).slice(-2))
-    .join("");
+  const bytes = new Uint8Array(signature);
+  return btoa(String.fromCharCode.apply(null, bytes)).replace(/\=+$/, "");
 };
 
 // Compare two hashes in constant time
