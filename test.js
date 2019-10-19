@@ -30,15 +30,26 @@ const throws = async (err, b = Error, reason = "did not throw") => {
   try {
     equal(
       await sign("francisco", "123456"),
-      "francisco#cc72290e44931616537934388d5c749b1bf9e63f9ff8701992534f8b0ded7923",
+      "francisco.SDucxDGCVvBwEq5/CMoConqdZvA4Td8mai5yWa5Vyjs",
       "can sign strings"
     );
 
     equal(
-      await sign("francisco#io", "123456"),
-      "francisco#io#c8377bfa77a734e7b23097d397b6b36d8f593f9c2b8593fa73b9883a03f71559",
+      await sign("francisco.io", "123456"),
+      "francisco.io.xFF4o51hmFPUJfxqy/9RharxvzqH+aLeZ0a6AM0wxLY",
       "can sign strings with pound symbols"
     );
+
+    const tobi = await sign("hello", "tobiiscool");
+    equal(
+      tobi,
+      "hello.DGDUkGlIkCzPz+C0B064FNgHdEjox7ch8tOBGslZ5QI",
+      "signs the same as cookie-signature"
+    );
+
+    equal(check(tobi, "tobiiscool"), true, "tobi is cool");
+
+    equal(check(tobi, "luna"), false, "luna is not cool");
 
     equal(
       await check(await sign("francisco", "123456"), "123456"),

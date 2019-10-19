@@ -3,7 +3,8 @@ const nodeHash = async (message, secret = "") => {
   return crypto
     .createHmac("sha256", secret)
     .update(message)
-    .digest("hex");
+    .digest("base64")
+    .replace(/\=+$/, "");
 };
 
 // From here: https://stackoverflow.com/a/47332317/938236
@@ -22,7 +23,7 @@ const browserHash = async (message, secret) => {
   const signature = await crypto.subtle.sign("HMAC", key, enc.encode(message));
   var b = new Uint8Array(signature);
   return Array.prototype.map
-    .call(b, x => ("00" + x.toString(16)).slice(-2))
+    .call(b, x => ("00" + x.toString(64)).slice(-2))
     .join("");
 };
 
@@ -42,23 +43,23 @@ export const sign = async (message, secret) => {
   if (!message) throw new TypeError("Provide a message to sign(message)");
   if (!secret) throw new TypeError("Provide a secret to sign(message, secret)");
 
-  const signature = await hash(`${message}${secret}`, secret);
-  return `${message}#${signature}`;
+  const signature = await hash(message, secret);
+  return `${message}.${signature}`;
 };
 
 export const check = async (signed, secret) => {
   // Requires two strings for the check
   if (!signed || typeof signed !== "string") return false;
   if (!secret || typeof secret !== "string") return false;
-  if (!signed.includes("#")) return false;
+  if (!signed.includes(".")) return false;
 
   // Break it into two parts
-  const parts = signed.split("#");
+  const parts = signed.split(".");
   const signature = parts.pop();
-  const value = parts.join("#");
+  const value = parts.join(".");
 
   // Get the signature again
-  const hashed = await hash(`${value}${secret}`, secret);
+  const hashed = await hash(value, secret);
 
   // Compare them in constant time
   return safeEqual(hashed, signature);
