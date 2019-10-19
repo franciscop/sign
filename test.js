@@ -47,9 +47,9 @@ const throws = async (err, b = Error, reason = "did not throw") => {
       "signs the same as cookie-signature"
     );
 
-    equal(check(tobi, "tobiiscool"), true, "tobi is cool");
+    equal(await check(tobi, "tobiiscool"), true, "tobi is cool");
 
-    equal(check(tobi, "luna"), false, "luna is not cool");
+    equal(await check(tobi, "luna"), false, "luna is not cool");
 
     equal(
       await check(await sign("francisco", "123456"), "123456"),
