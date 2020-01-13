@@ -1,6 +1,6 @@
 {
   "name": "sign",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A universal javascript library for signing strings to avoid tampering",
   "homepage": "https://github.com/franciscop/sign#readme",
   "repository": "https://github.com/franciscop/sign.git",
@@ -28,7 +28,6 @@
     "node": ">=12.0.0"
   },
   "engineStrict": true,
-  "files": [],
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.6.4",
