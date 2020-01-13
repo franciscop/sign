@@ -2,8 +2,12 @@
   "name": "sign",
   "version": "1.0.0",
   "description": "A universal javascript library for signing strings to avoid tampering",
-  "main": "index.js",
-  "type": "module",
+  "homepage": "https://github.com/franciscop/sign#readme",
+  "repository": "https://github.com/franciscop/sign.git",
+  "bugs": "https://github.com/franciscop/sign/issues",
+  "funding": "https://www.paypal.me/franciscopresencia/19",
+  "author": "Francisco Presencia <public@francisco.io> (https://francisco.io/)",
+  "license": "MIT",
   "scripts": {
     "build": "rollup test.js --o test.browser.js --f cjs",
     "test": "node --experimental-modules test.js"
@@ -17,12 +21,9 @@
     "verify",
     "check"
   ],
-  "author": "Francisco Presencia <public@francisco.io> (https://francisco.io/)",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/franciscop/sign"
-  },
+  "main": "index.js",
+  "files": [],
+  "type": "module",
   "engines": {
     "node": ">=12.0.0"
   },
