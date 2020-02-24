@@ -1,6 +1,6 @@
 {
   "name": "sign",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A universal javascript library for signing strings to avoid tampering",
   "homepage": "https://github.com/franciscop/sign#readme",
   "repository": "https://github.com/franciscop/sign.git",
