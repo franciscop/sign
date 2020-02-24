@@ -9,7 +9,7 @@ import { sign, check } from 'sign';
 const signed = await sign('Francisco', '123456');
 
 console.log(signed);
-// Francisco#b4c4c3d6e52559c7b13421ae0ef6d9c0f1c774b98c931f5f080a2a578cba5c69
+// Francisco.pACXHmIctuGrwvidl7vVNyh5uvZMEHmp+D3NQB3uXJ4
 
 // Only matches if the secret is the same used to sign
 console.log(await check(signed, '123456'));    // true
@@ -37,7 +37,7 @@ Both the message and secret must be plain strings. Make sure that the secret has
 const signed = sign('Francisco', process.env.SECRET);
 ```
 
-The result looks like `{MESSAGE}#{SIGNATURE}`.
+The result looks like `{MESSAGE}.{SIGNATURE}`.
 
 
 ### check(signed, secret)
@@ -46,7 +46,7 @@ Check whether the message has been signed with this secret. The signed message l
 
 ```js
 // Signed with '123456'
-const signed = "Francisco#b4c4c3d6e52559c7b13421ae0ef6d9c0f1c774b98c931f5f080a2a578cba5c69";
+const signed = "Francisco.pACXHmIctuGrwvidl7vVNyh5uvZMEHmp+D3NQB3uXJ4";
 
 expect(await check(signed, '123456')).toBe(true);
 expect(await check(signed, 'fake')).toBe(false);
