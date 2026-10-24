@@ -25,7 +25,7 @@ const nodeHash = async (message, secret = "") => {
     .createHmac("sha256", secret)
     .update(message)
     .digest("base64")
-    .replace(/\=+$/, "");
+    .replace(/=+$/, "");
 };
 
 // From here: https://stackoverflow.com/a/47332317/938236
@@ -43,7 +43,7 @@ const browserHash = async (message, secret) => {
   );
   const signature = await crypto.subtle.sign("HMAC", key, enc.encode(message));
   const bytes = new Uint8Array(signature);
-  return btoa(String.fromCharCode.apply(null, bytes)).replace(/\=+$/, "");
+  return btoa(String.fromCharCode.apply(null, bytes)).replace(/=+$/, "");
 };
 
 // Compare two hashes in constant time

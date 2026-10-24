@@ -1,4 +1,4 @@
-# sign
+# sign [![npm install sign](https://img.shields.io/badge/npm%20install-sign-blue.svg)](https://www.npmjs.com/package/sign) [![tests](https://github.com/franciscop/sign/workflows/tests/badge.svg)](https://github.com/franciscop/sign/actions) [![gzip size](https://img.badgesize.io/franciscop/sign/master/index.js.svg?label=gzip&logo=&compression=gzip)](https://github.com/franciscop/sign/blob/master/index.js) [![deps](https://img.shields.io/badge/deps-0-limegreen.svg)](https://github.com/franciscop/sign/blob/master/package.json)
 
 A universal javascript library for signing strings to avoid tampering:
 
