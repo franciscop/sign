@@ -16,47 +16,13 @@
     "check"
   ],
   "scripts": {
-    "build": "rollup test.js --o test.browser.js --f cjs",
-    "test": "node --experimental-modules test.js",
+    "test": "bun test",
     "lint": "oxlint index.js"
   },
   "main": "index.js",
   "type": "module",
   "files": [],
-  "engines": {
-    "node": ">=12.0.0"
-  },
-  "dependencies": {},
   "devDependencies": {
-    "@babel/core": "^7.6.4",
-    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/preset-env": "^7.6.3",
-    "jest": "^24.9.0",
-    "oxlint": "^1.89.0",
-    "rollup": "^1.23.1"
-  },
-  "babel": {
-    "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": {
-            "node": "current"
-          }
-        }
-      ]
-    ],
-    "plugins": [
-      [
-        "@babel/plugin-syntax-dynamic-import"
-      ]
-    ],
-    "env": {
-      "test": {
-        "plugins": [
-          "dynamic-import-node"
-        ]
-      }
-    }
+    "oxlint": "^1.89.0"
   }
 }
